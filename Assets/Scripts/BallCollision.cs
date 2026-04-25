@@ -12,6 +12,8 @@ public class BallCollision : MonoBehaviour
 
     private const float zSides = 8.162f;
 
+    private const float netHeight = 0.72f;
+
     [SerializeField] private Transform racketFace;
 
     private Vector3 lastTransform;
@@ -82,6 +84,22 @@ public class BallCollision : MonoBehaviour
                 return;
             }
         }
+        // went into net
+        else if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
+        {
+            // TODO - opponent wins
+            Debug.Log("Opponent wins");
+            Destroy(gameObject);
+            return;
+        }
+        else if(transform.position.z >= 0 && lastTransform.z <= 0 && transform.position.y < netHeight)
+        {
+            // TODO - PLAYER WINS
+            Debug.Log("Player wins");
+            Destroy(gameObject);
+            return;
+        }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -102,6 +120,17 @@ public class BallCollision : MonoBehaviour
         float speed = Vector3.Dot(racketFace.position - lastTransform, racketFace.forward) / Time.deltaTime;
 
         currentVelocity = -speedMultiplier * speed * racketFace.forward;
+    }
+
+    public void opponentHit()
+    {
+        playerLastHit = false;
+
+        doubleBounce = false;
+
+        hasBeenHit = true;
+
+        // TODO - either here or in th eenemy ai, make up the speed and velocity
     }
 
     private float timeAtGroundHit()
