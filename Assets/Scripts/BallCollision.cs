@@ -8,6 +8,10 @@ public class BallCollision : MonoBehaviour
 
     private const float speedMultiplier = 0.1f;
 
+    private const float xSides = 3.333f;
+
+    private const float zSides = 8.162f;
+
     [SerializeField] private Transform racketFace;
 
     private Vector3 lastTransform;
@@ -15,6 +19,10 @@ public class BallCollision : MonoBehaviour
     private Vector3 currentVelocity;
 
     public bool hasBeenHit = false;
+
+    bool playerLastHit = false;
+
+    private bool doubleBounce = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,10 +41,62 @@ public class BallCollision : MonoBehaviour
         transform.position = transform.position + currentVelocity * Time.deltaTime + 0.5f * gravityAccel * Time.deltaTime * Time.deltaTime * Vector3.up;
 
         currentVelocity += gravityAccel * Time.deltaTime * Vector3.up;
+
+        // in bounds and hit ground
+        if(transform.position.y < 0 && transform.position.x < xSides && transform.position.x > -xSides && transform.position.z < zSides && transform.position.z > -zSides)
+        {
+            // you hit your own ground or it bounce twice in yours
+            if((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
+            {
+                // TODO - opponent wins
+                Debug.Log("Opponent wins");
+                Destroy(gameObject);
+                return;
+            }
+            else if((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
+            {
+                // TODO - PLAYER WINS
+                Debug.Log("Player wins");
+                Destroy(gameObject);
+                return;
+            }
+
+            doubleBounce = true;
+            currentVelocity.y = -currentVelocity.y * 0.8f;
+        }
+        // out of bounds
+        else if(transform.position.y < 0)
+        {
+            if(playerLastHit)
+            {
+                // TODO - opponent wins
+                Debug.Log("Opponent wins");
+                Destroy(gameObject);
+                return;
+            }
+            else
+            {
+                // TODO - PLAYER WINS
+                Debug.Log("Player wins");
+                Destroy(gameObject);
+                return;
+            }
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
+        if(playerLastHit)
+        {
+            // TODO - opponent won
+            Destroy(gameObject);
+            return;
+        }
+
+        doubleBounce = false;
+
+        playerLastHit = true;
+
         hasBeenHit = true;
     
         float speed = Vector3.Dot(racketFace.position - lastTransform, racketFace.forward) / Time.deltaTime;
