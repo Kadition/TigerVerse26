@@ -12,15 +12,13 @@ public class BallCollision : MonoBehaviour
 
     private Vector3 currentVelocity;
 
-    bool hasBeenHit = false;
+    public bool hasBeenHit = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         lastTransform = racketFace.transform.position;
     }
-
-    //futurePosition = currentPosition + velocity * time + 0.5 * acceleration * time^2
 
     // Update is called once per frame
     void Update()
@@ -42,9 +40,16 @@ public class BallCollision : MonoBehaviour
         currentVelocity = speed * racketFace.forward;
     }
 
-    public float timeAtGroundHit()
+    private float timeAtGroundHit()
     {
         // shoutout to Brendan for this equation
         return (currentVelocity.y + Mathf.Sqrt(currentVelocity.y * currentVelocity.y + 2 * gravityAccel * transform.position.y)) / gravityAccel;
+    }
+
+    public Vector3 locationAtGroundHit()
+    {
+        float time = timeAtGroundHit();
+
+        return transform.position + currentVelocity * time + 0.5f * gravityAccel * time * time * transform.up;
     }
 }

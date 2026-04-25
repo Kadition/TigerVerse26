@@ -17,13 +17,15 @@ public class HandTracking : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Get local hand position/rotation
-        Vector3 localHandPos = rightHandPosition.action.ReadValue<Vector3>();
-        transform.rotation = rightHandRotation.action.ReadValue<Quaternion>();
+    Vector3 localHandPos = rightHandPosition.action.ReadValue<Vector3>();
+    Quaternion controllerRotation = rightHandRotation.action.ReadValue<Quaternion>();
 
-        transform.position = headsetRigTransform.TransformPoint(localHandPos);
+    controllerRotation = Quaternion.Euler(-controllerRotation.eulerAngles.x, controllerRotation.eulerAngles.y, -controllerRotation.eulerAngles.z);
+
+    transform.rotation = controllerRotation;
+
+    transform.position = headsetRigTransform.TransformPoint(localHandPos);
     }
 }
