@@ -73,7 +73,7 @@ public class ScoreTracker : MonoBehaviour
     {
         playerPoints = 0;
         opponentPoints = 0;
-        Debug.log("Score reset. New Game!");
+        Debug.Log("Score reset. New Game!");
     }
 
 
