@@ -2,11 +2,9 @@ using UnityEngine;
 
 public class BallCollision : MonoBehaviour
 {
-    public Vector3 predictedBounceLocation;
-
     private const float gravityAccel = -9.81f;
 
-    private const float speedMultiplier = 0.1f;
+    [SerializeField] private float speedMultiplier = 1.5f;
 
     private const float xSides = 3.333f;
 
@@ -14,29 +12,39 @@ public class BallCollision : MonoBehaviour
 
     private const float netHeight = 0.72f;
 
-    [SerializeField] private Transform racketFace;
+    private Vector3 lastRacketTransform;
 
     private Vector3 lastTransform;
 
+    private Vector3 secondToLastRacketTransform;
+
     private Vector3 currentVelocity;
 
-    public bool hasBeenHit = false;
+    public bool hasBeenHit {get; private set;} = false;
 
-    bool playerLastHit = false;
+    public bool playerLastHit {get; private set;} = false;
 
     private bool doubleBounce = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        lastTransform = racketFace.transform.position;
+        lastRacketTransform = HandTracking.instance.racketFace.transform.position;
+        secondToLastRacketTransform = HandTracking.instance.racketFace.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(Vector3.Distance(lastRacketTransform, secondToLastRacketTransform));
+
+        HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketTransform, secondToLastRacketTransform))), HandTracking.instance.racketCollider.size.z);
+
         if(!hasBeenHit)
         {
+            lastTransform = transform.position;
+            secondToLastRacketTransform = lastRacketTransform;
+            lastRacketTransform = HandTracking.instance.racketFace.transform.position;
             return;
         }
 
@@ -51,7 +59,7 @@ public class BallCollision : MonoBehaviour
             if((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
             {
                 // TODO - opponent wins
-                Debug.Log("Opponent wins");
+                Debug.Log("Opponent wins1");
                 Destroy(gameObject);
                 return;
             }
@@ -65,6 +73,8 @@ public class BallCollision : MonoBehaviour
 
             doubleBounce = true;
             currentVelocity.y = -currentVelocity.y * 0.8f;
+
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
         // out of bounds
         else if(transform.position.y < 0)
@@ -72,7 +82,7 @@ public class BallCollision : MonoBehaviour
             if(playerLastHit)
             {
                 // TODO - opponent wins
-                Debug.Log("Opponent wins");
+                Debug.Log("Opponent wins2");
                 Destroy(gameObject);
                 return;
             }
@@ -88,7 +98,7 @@ public class BallCollision : MonoBehaviour
         else if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
         {
             // TODO - opponent wins
-            Debug.Log("Opponent wins");
+            Debug.Log("Opponent wins3");
             Destroy(gameObject);
             return;
         }
@@ -100,6 +110,9 @@ public class BallCollision : MonoBehaviour
             return;
         }
 
+        lastTransform = transform.position;
+        secondToLastRacketTransform = lastRacketTransform;
+        lastRacketTransform = HandTracking.instance.racketFace.transform.position;
     }
 
     void OnTriggerEnter(Collider other)
@@ -107,6 +120,7 @@ public class BallCollision : MonoBehaviour
         if(playerLastHit)
         {
             // TODO - opponent won
+            Debug.Log("Opponent wins4");
             Destroy(gameObject);
             return;
         }
@@ -117,9 +131,11 @@ public class BallCollision : MonoBehaviour
 
         hasBeenHit = true;
     
-        float speed = Vector3.Dot(racketFace.position - lastTransform, racketFace.forward) / Time.deltaTime;
+        float speed = Vector3.Dot(lastRacketTransform - secondToLastRacketTransform, HandTracking.instance.racketFace.forward) / Time.deltaTime;
 
-        currentVelocity = -speedMultiplier * speed * racketFace.forward;
+        currentVelocity = speedMultiplier * speed * HandTracking.instance.racketFace.forward;
+
+        Debug.Log(currentVelocity);
     }
 
     public void opponentHit()
@@ -130,7 +146,18 @@ public class BallCollision : MonoBehaviour
 
         hasBeenHit = true;
 
-        // TODO - either here or in th eenemy ai, make up the speed and velocity
+        // the chance the enemy just straight flubs it
+        if(Random.Range(0, EnemyAI.flubChance) == 0)
+        {
+            currentVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        }
+        else
+        {
+            // for(int i = 0; i < EnemyAI.tryChance; i++)
+            {
+                currentVelocity = new Vector3(Random.Range(-2f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            }
+        }
     }
 
     private float timeAtGroundHit()
