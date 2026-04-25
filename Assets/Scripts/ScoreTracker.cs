@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class ScoreTracker : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class ScoreTracker : MonoBehaviour
     // keep player scores
     private int playerPoints = 0;
     private int opponentPoints = 0;
+
+    public TMP_Text floatingScoreText;
     public void RecordPoint(bool playerWins)
     {
         if (playerWins)
@@ -37,7 +40,7 @@ public class ScoreTracker : MonoBehaviour
         }
 
         //If no one won yet, update the display
-        Debug.Log("Current Score: " + GetTennisScoreText());
+        floatingScoreText.text = GetTennisScoreText();
     }
 
     // Translates integers into tennis terms
@@ -70,17 +73,22 @@ public class ScoreTracker : MonoBehaviour
         return $"{pText} - {oText}";
     }
     private void ResetGameScore()
-    {
-        playerPoints = 0;
-        opponentPoints = 0;
-        Debug.Log("Score reset. New Game!");
-    }
+{
+    playerPoints = 0;
+    opponentPoints = 0;
+    // Add this line so the UI updates to "Love - Love" immediately
+    floatingScoreText.text = GetTennisScoreText(); 
+    Debug.Log("Score reset. New Game!");
+}
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (floatingScoreText != null)
+        {
+            floatingScoreText.text = GetTennisScoreText();
+        }
     }
 
     // Update is called once per frame
