@@ -6,6 +6,8 @@ public class BallCollision : MonoBehaviour
 
     private const float gravityAccel = -9.81f;
 
+    private const float speedMultiplier = 0.1f;
+
     [SerializeField] private Transform racketFace;
 
     private Vector3 lastTransform;
@@ -28,7 +30,9 @@ public class BallCollision : MonoBehaviour
             return;
         }
 
-        transform.position = transform.position + currentVelocity * Time.deltaTime + 0.5f * gravityAccel * Time.deltaTime * Time.deltaTime * transform.up;
+        transform.position = transform.position + currentVelocity * Time.deltaTime + 0.5f * gravityAccel * Time.deltaTime * Time.deltaTime * Vector3.up;
+
+        currentVelocity += gravityAccel * Time.deltaTime * Vector3.up;
     }
 
     void OnTriggerEnter(Collider other)
@@ -37,7 +41,7 @@ public class BallCollision : MonoBehaviour
     
         float speed = Vector3.Dot(racketFace.position - lastTransform, racketFace.forward) / Time.deltaTime;
 
-        currentVelocity = speed * racketFace.forward;
+        currentVelocity = -speedMultiplier * speed * racketFace.forward;
     }
 
     private float timeAtGroundHit()
@@ -50,6 +54,6 @@ public class BallCollision : MonoBehaviour
     {
         float time = timeAtGroundHit();
 
-        return transform.position + currentVelocity * time + 0.5f * gravityAccel * time * time * transform.up;
+        return transform.position + currentVelocity * time + 0.5f * gravityAccel * time * time * Vector3.up;
     }
 }
