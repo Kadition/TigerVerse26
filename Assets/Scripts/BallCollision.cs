@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class BallCollision : MonoBehaviour
 {
+    public static BallCollision instance;
+
     private const float gravityAccel = -9.81f;
 
-    [SerializeField] private float speedMultiplier = 1.5f;
+    private float speedMultiplier = 1.2f;
 
     private const float xSides = 3.333f;
 
@@ -25,6 +27,18 @@ public class BallCollision : MonoBehaviour
     public bool playerLastHit {get; private set;} = false;
 
     private bool doubleBounce = false;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,14 +74,14 @@ public class BallCollision : MonoBehaviour
             {
                 // TODO - opponent wins
                 Debug.Log("Opponent wins1");
-                Destroy(gameObject);
+                resetBall();
                 return;
             }
             else if((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
             {
                 // TODO - PLAYER WINS
                 Debug.Log("Player wins");
-                Destroy(gameObject);
+                resetBall();
                 return;
             }
 
@@ -83,14 +97,14 @@ public class BallCollision : MonoBehaviour
             {
                 // TODO - opponent wins
                 Debug.Log("Opponent wins2");
-                Destroy(gameObject);
+                resetBall();
                 return;
             }
             else
             {
                 // TODO - PLAYER WINS
                 Debug.Log("Player wins");
-                Destroy(gameObject);
+                resetBall();
                 return;
             }
         }
@@ -99,14 +113,14 @@ public class BallCollision : MonoBehaviour
         {
             // TODO - opponent wins
             Debug.Log("Opponent wins3");
-            Destroy(gameObject);
+            resetBall();
             return;
         }
         else if(transform.position.z >= 0 && lastTransform.z <= 0 && transform.position.y < netHeight)
         {
             // TODO - PLAYER WINS
             Debug.Log("Player wins");
-            Destroy(gameObject);
+            resetBall();
             return;
         }
 
@@ -121,7 +135,7 @@ public class BallCollision : MonoBehaviour
         {
             // TODO - opponent won
             Debug.Log("Opponent wins4");
-            Destroy(gameObject);
+            resetBall();
             return;
         }
 
@@ -171,5 +185,25 @@ public class BallCollision : MonoBehaviour
         float time = timeAtGroundHit();
 
         return transform.position + currentVelocity * time + 0.5f * gravityAccel * time * time * Vector3.up;
+    }
+
+    private void resetBall()
+    {
+        hasBeenHit = false;
+
+        playerLastHit = false;
+
+        doubleBounce = false;
+
+        currentVelocity = Vector3.zero;
+
+        transform.position = new Vector3(0, -8, 0);
+    }
+
+    public void respawnBall()
+    {
+        resetBall();
+
+        transform.position = new Vector3(0, 0.8f, 5);
     }
 }

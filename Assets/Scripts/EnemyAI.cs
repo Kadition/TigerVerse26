@@ -1,11 +1,8 @@
 using UnityEngine;
+using TMPro;
 
 public class EnemyAI : MonoBehaviour
 {
-    [SerializeField] private BallCollision ballCollision;
-
-    [SerializeField] private Transform ballTransform;
-
     private const float movementSpeed = 0.5f;
 
     private const float distanceToHit = 1.5f;
@@ -25,23 +22,26 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!ballCollision.hasBeenHit)
+        if(!BallCollision.instance.hasBeenHit)
         {
             return;
         }
 
-        if(!ballCollision.playerLastHit)
+        if(!BallCollision.instance.playerLastHit)
         {
-            // TODO - go to default position
+            transform.position = transform.position + Time.deltaTime * movementSpeed * new Vector3(-transform.position.x, 0, -2.5f - transform.position.z);
+            return;
         }
 
-        ballCollisionPosition = ballCollision.locationAtGroundHit();
+        // TODO - if close enough, go towards it
 
-        transform.position = transform.position + Time.deltaTime * movementSpeed * new Vector3(transform.position.x - ballCollisionPosition.x, 0, transform.position.z - ballCollisionPosition.z);
+        ballCollisionPosition = BallCollision.instance.locationAtGroundHit();
 
-        if(Vector3.Distance(transform.position, ballTransform.position) < distanceToHit)
+        transform.position = transform.position + Time.deltaTime * movementSpeed * new Vector3(ballCollisionPosition.x - transform.position.x, 0, ballCollisionPosition.z - transform.position.z);
+
+        if(Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
         {
-            ballCollision.opponentHit();
+            BallCollision.instance.opponentHit();
         }
     }
 }

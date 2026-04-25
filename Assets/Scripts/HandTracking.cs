@@ -55,6 +55,6 @@ public class HandTracking : MonoBehaviour
 
     void SpawnBall(InputAction.CallbackContext context)
     {
-        Instantiate(ball);
+        BallCollision.instance.respawnBall();
     }
 }
