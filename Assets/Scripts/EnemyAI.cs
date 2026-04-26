@@ -50,11 +50,6 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool(animateForward, false);
-        animator.SetBool(animateBackward, false);
-        animator.SetBool(animateRight, false);
-        animator.SetBool(animateLeft, false);
-
         if(!BallCollision.instance.canHit)
         {
             return;
@@ -93,37 +88,57 @@ public class EnemyAI : MonoBehaviour
         if(direction.magnitude < 0.01f)
         {
             transform.position = new Vector3(ballCollisionPosition.x, transform.position.y, ballCollisionPosition.z);
+            animator.SetBool(animateForward, false);
+            animator.SetBool(animateBackward, false);
+            animator.SetBool(animateRight, false);
+            animator.SetBool(animateLeft, false);
         }
         else
         {
 
-            if(!(direction.magnitude < 0.1f))
+            // if(direction.magnitude > 0.02f)
             {
                 if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
                 {
                     if(direction.x > 0)
                     {
-                        animator.SetBool(animateRight, false);
+                        Debug.Log("right");
+                        animator.SetBool(animateRight, true);
+                        animator.SetBool(animateForward, false);
+                        animator.SetBool(animateBackward, false);
+                        animator.SetBool(animateLeft, false);
                     }
                     else
                     {
-                        animator.SetBool(animateLeft, false);
+                        Debug.Log("left");
+                        animator.SetBool(animateLeft, true);
+                        animator.SetBool(animateRight, false);
+                        animator.SetBool(animateForward, false);
+                        animator.SetBool(animateBackward, false);
                     }
                 }
                 else
                 {
                     if(direction.z > 0)
                     {
-                        animator.SetBool(animateForward, false);
+                        Debug.Log("forward");
+                        animator.SetBool(animateForward, true);
+                        animator.SetBool(animateBackward, false);
+                        animator.SetBool(animateRight, false);
+                        animator.SetBool(animateLeft, false);
                     }
                     else
                     {
-                        animator.SetBool(animateBackward, false);
+                        Debug.Log("backward");
+                        animator.SetBool(animateBackward, true);
+                        animator.SetBool(animateForward, false);
+                        animator.SetBool(animateRight, false);
+                        animator.SetBool(animateLeft, false);
                     }
                 }
             }
         
-            transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;   
+            transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;  
         }
 
         if((BallCollision.instance.locationIn(ballCollisionPosition) || BallCollision.instance.doubleBounce) && Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
