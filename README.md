@@ -10,6 +10,9 @@ Telekenetic Tennis is a virtual reality tennis game built in Unity. This project
 - Authentic Scoring: Full implementation of standard tennis scoring (Love, 15, 30, 40, Deuce, Advantage) requiring a win-by-two scenario.
 - Immersive Feedback: Includes spatial audio for ball bounces, racket hits, net collisions, crowd reactions, and controller haptic rumble on impact.
 
+**How To Play**
+- Right Hand Joysitck: Move player around court
+- Rigth Hand Rotation: Moves ball left, right, up, and down
 
 **Dependencies & Requirements**
 To run this project, your Unity environment must have the following packages installed:
@@ -17,14 +20,6 @@ To run this project, your Unity environment must have the following packages ins
 - Unity Input System: Used for modern VR controller mapping (UnityEngine.InputSystem).
 - XR Interaction Toolkit: Used for the VR rig and spatial tracking (UnityEngine.InputSystem.XR).
 - TextMeshPro: Used for rendering the floating 3D score text in the VR space (TMPro).
-
-**Input Map Setup**
-- If setting up this project from scratch, ensure your Unity Input Actions are mapped to the following references inside the HandTracking and BallCollision scripts:
-- rightHandPosition: Tracks the Vector position of the right controller.
-- rightHandRotation: Tracks the Quaternion rotation of the right controller.
-- joystick: Tracks a Vector for player movement around the court.
-- buttonClick: Triggers the ball respawn function.
-- hapticDevice: Used to send rumble impulses to the controller on ball impact.
 
 **Hardware Integration: Spectator Score Board**
 - Sends score updates to an esp32 driving an lcd display over usb serial so others can follow allong in real time.
