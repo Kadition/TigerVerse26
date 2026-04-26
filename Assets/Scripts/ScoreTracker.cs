@@ -3,12 +3,25 @@ using TMPro;
 
 public class ScoreTracker : MonoBehaviour
 {
-
+    public static ScoreTracker instance;
     // keep player scores
     private int playerPoints = 0;
     private int opponentPoints = 0;
 
     public TMP_Text floatingScoreText;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
     public void RecordPoint(bool playerWins)
     {
         if (playerWins)

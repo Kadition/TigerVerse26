@@ -14,6 +14,8 @@ public class HandTracking : MonoBehaviour
     [SerializeField] private InputActionReference buttonClick;
     [SerializeField] private GameObject ball;
 
+    // [SerializeField]
+
     public Transform racketFace;
     public BoxCollider racketCollider;
 
@@ -55,6 +57,6 @@ public class HandTracking : MonoBehaviour
 
     void SpawnBall(InputAction.CallbackContext context)
     {
-        Instantiate(ball);
+        BallCollision.instance.respawnBall();
     }
 }
