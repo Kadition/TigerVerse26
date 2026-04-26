@@ -1,26 +1,15 @@
 # TigerVerse26
 
 **Telekenetic Tennis**
-Telekenetic Tennis is a virtual reality tennis game built in Unity. This project  features custom physics-based ball interactions, standard tennis scoring, dynamic VR controller inputs, and a predictive AI opponent.
-
-**Core Features**
-- Custom Ball Physics: Calculates custom gravity, velocity, and bounce vectors, determining out-of-bounds hits, net hits, and double bounces.
-- Dynamic Racket Tracking: Calculates racket swing speed to apply force to the ball and dynamically scales the racket's hit-box based on movement speed to improve VR playability.
-- Predictive Enemy AI: The opponent calculates the exact landing position of the ball and moves to intercept it, featuring a configurable "flub chance" for realistic errors.
-- Authentic Scoring: Full implementation of standard tennis scoring (Love, 15, 30, 40, Deuce, Advantage) requiring a win-by-two scenario.
-- Immersive Feedback: Includes spatial audio for ball bounces, racket hits, net collisions, crowd reactions, and controller haptic rumble on impact.
+Telekenetic Tennis is a virtual reality tennis game built in Unity.
 
 **How To Play**
-- Move around court: Right hand joysitck 
-- Telekenesis: Moves ball left, right, forward, and backwards after serving by rotating the right controller
-- Follows standard tennis scoring
+- Move around court: Right hand joystick 
+- Telekenesis: Moves ball left, right, forward, and backwards after serving by rotating the right controller, but only after you hit it last
+- Follows standard tennis scoring (except serving, where all faults count as a lost point)
 
 **Dependencies & Requirements**
-To run this project, your Unity environment must have the following packages installed:
-
-- Unity Input System: Used for modern VR controller mapping (UnityEngine.InputSystem).
-- XR Interaction Toolkit: Used for the VR rig and spatial tracking (UnityEngine.InputSystem.XR).
-- TextMeshPro: Used for rendering the floating 3D score text in the VR space (TMPro).
+To run this project, you need the correct unity version, a vr headset, and a right vr controller
 
 **Hardware Integration: Spectator Score Board**
 - Sends score updates to an esp32 driving an lcd display over usb serial so others can follow allong in real time.
