@@ -50,7 +50,7 @@ public class BallCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(Vector3.Distance(lastRacketTransform, secondToLastRacketTransform));
+        // Debug.Log(Vector3.Distance(lastRacketTransform, secondToLastRacketTransform));
 
         HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketTransform, secondToLastRacketTransform))), HandTracking.instance.racketCollider.size.z);
 
@@ -176,15 +176,20 @@ public class BallCollision : MonoBehaviour
 
     private float timeAtGroundHit()
     {
+        if (((-currentVelocity.y + Mathf.Sqrt(currentVelocity.y * currentVelocity.y - 2 * gravityAccel * transform.position.y)) / gravityAccel) < 0)
+        {
+            return (-currentVelocity.y - Mathf.Sqrt(currentVelocity.y * currentVelocity.y - 2 * gravityAccel * transform.position.y)) / gravityAccel;
+        }
+
         // shoutout to Brendan for this equation
-        return (currentVelocity.y + Mathf.Sqrt(currentVelocity.y * currentVelocity.y + 2 * gravityAccel * transform.position.y)) / gravityAccel;
+        return (-currentVelocity.y + Mathf.Sqrt(currentVelocity.y * currentVelocity.y - 2 * gravityAccel * transform.position.y)) / gravityAccel;
     }
 
     public Vector3 locationAtGroundHit()
     {
         float time = timeAtGroundHit();
 
-        return transform.position + currentVelocity * time + 0.5f * gravityAccel * time * time * Vector3.up;
+        return new Vector3(transform.position.x + currentVelocity.x * time, 0f, transform.position.z + currentVelocity.z * time);
     }
 
     private void resetBall()
