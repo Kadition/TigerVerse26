@@ -3,29 +3,27 @@ using UnityEngine.InputSystem;
 
 public class Menu : MonoBehaviour
 {
+    public static Menu instance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header("Menu UI Reference")]
     public GameObject menuPanel;
     public static int currentDifficulty = 2; // Default to Medium
                                              //1=easy, 2=medium, 3=hard
     public InputActionReference rightMenuButton;
-    private bool isMenuOpen = true;
+    private bool isMenuOpen = false;
 
-    private void OnEnable()
+    void Awake()
     {
-        if (rightMenuButton != null)
+        if(instance == null)
         {
-            rightMenuButton.action.Enable();
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void OnDisable()
-    {
-        if (rightMenuButton != null)
-        {
-            rightMenuButton.action.Disable();
-        }
-    }
     void Start()
     {
         OpenMenu();
@@ -34,21 +32,25 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rightMenuButton != null && rightMenuButton.action.WasPressedThisFrame())
-        {
-            if (isMenuOpen)
-            {
-                PlayGame();
-            }
-            else
-            {
-                OpenMenu();
-            }
-        }
+        // if (rightMenuButton != null && rightMenuButton.action.WasPressedThisFrame())
+        // {
+        //     if (isMenuOpen)
+        //     {
+        //         PlayGame();
+        //     }
+        //     else
+        //     {
+        //         OpenMenu();
+        //     }
+        // }
     }
 
     public void OpenMenu()
     {
+        if(isMenuOpen)
+        {
+            return;
+        }
         isMenuOpen = true;
         menuPanel.SetActive(true); // Show the menu
 

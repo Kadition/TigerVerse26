@@ -80,6 +80,11 @@ public class BallCollision : MonoBehaviour
         secondToLastRacketTransform = racketHandle.position;
     }
 
+    public float pointDirection()
+    {
+        return racketPoint.forward.normalized.y;
+    }
+
     // Update is called once per frame
     void Update()
     {
