@@ -55,7 +55,7 @@ public class ScoreTracker : MonoBehaviour
         {
             Debug.Log("Opponent Wins the Game!");
             LeftCrowdAudioSource.PlayOneShot(Aww);
-            LeftCrowdAudioSource.PlayOneShot(Aww);
+            RightCrowdAudioSource.PlayOneShot(Aww);
             ResetGameScore();
             return; //game over
         }

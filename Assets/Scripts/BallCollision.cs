@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class BallCollision : MonoBehaviour
 {
@@ -44,6 +43,11 @@ public class BallCollision : MonoBehaviour
     public AudioSource BallAudioSource;
     public AudioClip Bounce;
     public AudioClip Hit;
+
+    [SerializeField] private AudioClip netSound;
+
+    [SerializeField] private AudioSource netAudioSource;
+
     void Awake()
     {
         if(instance == null)
@@ -168,6 +172,7 @@ public class BallCollision : MonoBehaviour
         // went into net
         if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
         {
+            netAudioSource.PlayOneShot(netSound);
             ScoreTracker.instance.RecordPoint(false);
             // TODO - opponent wins
             Debug.Log("Opponent wins3");
@@ -176,6 +181,7 @@ public class BallCollision : MonoBehaviour
         }
         else if(transform.position.z >= 0 && lastTransform.z <= 0 && transform.position.y < netHeight)
         {
+            netAudioSource.PlayOneShot(netSound);
             ScoreTracker.instance.RecordPoint(true);
             // TODO - PLAYER WINS
             Debug.Log("Player wins");
