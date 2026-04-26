@@ -106,15 +106,24 @@ public class ScoreTracker : MonoBehaviour
     {
         string[] scoreTerms = { "Love", "15", "30", "40" };
 
-        if (playerPoints >= 3 && opponentPoints >= 3)
-        {
-            if (playerPoints == opponentPoints)
-                return "Deuce";
-            else if (playerPoints == opponentPoints + 1)
-                return "Advantage Player";
-            else if (opponentPoints == playerPoints + 1)
-                return "Advantage Opponent";
-        }
+        if (playerPoints >= 3 && opponentPoints >= 3)  
+{
+    if (playerPoints == opponentPoints)
+    {
+        SendToLCD("Deuce", "");
+        return "Deuce";
+    }
+    else if (playerPoints == opponentPoints + 1)
+    {
+        SendToLCD("Advantage", "Player");
+        return "Advantage Player";
+    }
+    else if (opponentPoints == playerPoints + 1)
+    {
+        SendToLCD("Advantage", "Opponent");
+        return "Advantage Opponent";
+    }
+}
 
         string pText = scoreTerms[playerPoints];
         string oText = scoreTerms[opponentPoints];
