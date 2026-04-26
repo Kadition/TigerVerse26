@@ -1,10 +1,10 @@
 using UnityEngine;
 using TMPro;
+using System.IO.Ports;
 
 public class ScoreTracker : MonoBehaviour
 {
     public static ScoreTracker instance;
-    // keep player scores
     private int playerPoints = 0;
     private int opponentPoints = 0;
 
@@ -13,6 +13,10 @@ public class ScoreTracker : MonoBehaviour
     public AudioClip Aww;
     public AudioSource LeftCrowdAudioSource;
     public AudioSource RightCrowdAudioSource;
+
+    // Serial port for LCD
+    private SerialPort serial;
+    public string portName = "/dev/cu.usbserial-0001"; // Update this to your actual port
 
     void Awake()
     {
@@ -23,6 +27,18 @@ public class ScoreTracker : MonoBehaviour
         else
         {
             Destroy(this);
+        }
+
+        // Open serial connection
+        try
+        {
+            serial = new SerialPort(portName, 115200);
+            serial.Open();
+            Debug.Log("Serial port opened");
+        }
+        catch
+        {
+            Debug.LogWarning("Could not open serial port - LCD will not update");
         }
     }
 
@@ -42,79 +58,84 @@ public class ScoreTracker : MonoBehaviour
 
     private void ProcessScore()
     {
-        //check game win
         if (playerPoints >= 4 && playerPoints >= opponentPoints + 2) 
         {
             Debug.Log("Player Wins the Game!");
             RightCrowdAudioSource.PlayOneShot(Cheer);
             LeftCrowdAudioSource.PlayOneShot(Cheer);
+            SendToLCD("Player Wins!", "");
             ResetGameScore();
-            return; //game over
+            return;
         }
         else if (opponentPoints >= 4 && opponentPoints >= playerPoints + 2)
         {
             Debug.Log("Opponent Wins the Game!");
             LeftCrowdAudioSource.PlayOneShot(Aww);
             RightCrowdAudioSource.PlayOneShot(Aww);
+            SendToLCD("Opponent Wins!", "");
             ResetGameScore();
-            return; //game over
+            return;
         }
 
-        //If no one won yet, update the display
         floatingScoreText.text = GetTennisScoreText();
+        SendToLCD(GetTennisScoreText(), "");
     }
 
-    // Translates integers into tennis terms
+    private void SendToLCD(string line1, string line2)
+    {
+        if (serial != null && serial.IsOpen)
+        {
+            try
+            {
+                serial.WriteLine(line1 + "|" + line2);
+            }
+            catch
+            {
+                Debug.LogWarning("Failed to send to LCD");
+            }
+        }
+    }
+
     public string GetTennisScoreText()
     {
-        // Array mapping index to tennis terms (0=Love, 1=15, 2=30, 3=40)
         string[] scoreTerms = { "Love", "15", "30", "40" };
 
-        // Handle Deuce and Advantage (triggered if both players have at least 3 points / 40)
         if (playerPoints >= 3 && opponentPoints >= 3)
         {
             if (playerPoints == opponentPoints)
-            {
                 return "Deuce";
-            }
             else if (playerPoints == opponentPoints + 1)
-            {
                 return "Advantage Player";
-            }
             else if (opponentPoints == playerPoints + 1)
-            {
                 return "Advantage Opponent";
-            }
         }
 
-        //Handle standard scoring
         string pText = scoreTerms[playerPoints];
         string oText = scoreTerms[opponentPoints];
-
         return $"{pText} - {oText}";
     }
+
     private void ResetGameScore()
-{
-    playerPoints = 0;
-    opponentPoints = 0;
-    // Add this line so the UI updates to "Love - Love" immediately
-    floatingScoreText.text = GetTennisScoreText(); 
-    Debug.Log("Score reset. New Game!");
-}
+    {
+        playerPoints = 0;
+        opponentPoints = 0;
+        floatingScoreText.text = GetTennisScoreText();
+        Debug.Log("Score reset. New Game!");
+    }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (floatingScoreText != null)
-        {
             floatingScoreText.text = GetTennisScoreText();
-        }
+
+        SendToLCD("Love - Love", "");
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnApplicationQuit()
     {
-        
+        if (serial != null && serial.IsOpen)
+            serial.Close();
     }
+
+    void Update() { }
 }
