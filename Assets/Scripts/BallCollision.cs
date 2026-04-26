@@ -83,6 +83,7 @@ public class BallCollision : MonoBehaviour
             // you hit your own ground or it bounce twice in yours
             if((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
             {
+                ScoreTracker.instance.RecordPoint(false);
                 // TODO - opponent wins
                 Debug.Log("Opponent wins1");
                 resetBall();
@@ -90,6 +91,7 @@ public class BallCollision : MonoBehaviour
             }
             else if((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
             {
+                ScoreTracker.instance.RecordPoint(true);
                 // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
@@ -105,6 +107,7 @@ public class BallCollision : MonoBehaviour
         {
             if(!playerLastHit)
             {
+                ScoreTracker.instance.RecordPoint(false);
                 // TODO - opponent wins
                 Debug.Log("Opponent wins2");
                 resetBall();
@@ -112,6 +115,7 @@ public class BallCollision : MonoBehaviour
             }
             else
             {
+                ScoreTracker.instance.RecordPoint(true);
                 // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
@@ -123,6 +127,7 @@ public class BallCollision : MonoBehaviour
         {
             if(playerLastHit)
             {
+                ScoreTracker.instance.RecordPoint(false);
                 // TODO - opponent wins
                 Debug.Log("Opponent wins2");
                 resetBall();
@@ -130,6 +135,7 @@ public class BallCollision : MonoBehaviour
             }
             else
             {
+                ScoreTracker.instance.RecordPoint(true);
                 // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
@@ -140,6 +146,7 @@ public class BallCollision : MonoBehaviour
         // went into net
         if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
         {
+            ScoreTracker.instance.RecordPoint(false);
             // TODO - opponent wins
             Debug.Log("Opponent wins3");
             resetBall();
@@ -147,6 +154,7 @@ public class BallCollision : MonoBehaviour
         }
         else if(transform.position.z >= 0 && lastTransform.z <= 0 && transform.position.y < netHeight)
         {
+            ScoreTracker.instance.RecordPoint(true);
             // TODO - PLAYER WINS
             Debug.Log("Player wins");
             resetBall();
@@ -162,6 +170,7 @@ public class BallCollision : MonoBehaviour
     {
         if(playerLastHit)
         {
+            ScoreTracker.instance.RecordPoint(false);
             // TODO - opponent won
             Debug.Log("Opponent wins4");
             resetBall();
