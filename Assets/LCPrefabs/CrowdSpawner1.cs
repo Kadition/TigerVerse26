@@ -15,7 +15,7 @@ public class CrowdSpawner1 : MonoBehaviour
     // I have set the default to the exact math we just calculated!
     public Vector3 rowOffset = new Vector3(-3.22f, 2.03f, -0.02f); 
 
-    void Start1()
+    void Start()
     {
         // 1. Loop through the number of rows (Front to Back)
         for (int row = 0; row < numberOfRows; row++)
