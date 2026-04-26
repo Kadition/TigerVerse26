@@ -55,6 +55,8 @@ public class BallCollision : MonoBehaviour
 
     [SerializeField] private AudioSource netAudioSource;
 
+    private bool doubleHitCooldown = false;
+
     void Awake()
     {
         if(instance == null)
@@ -208,7 +210,7 @@ public class BallCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(!canHit)
+        if(!canHit || doubleHitCooldown)
         {
             return;
         }
@@ -237,6 +239,17 @@ public class BallCollision : MonoBehaviour
         currentVelocity = speedMultiplier * speed * HandTracking.instance.racketFace.forward;
 
         // Debug.Log(currentVelocity);
+
+        StartCoroutine(doubleHit());
+    }
+
+    private IEnumerator doubleHit()
+    {
+        doubleHitCooldown = true;
+
+        yield return new WaitForSeconds(0.2f);
+
+        doubleHitCooldown = false;
     }
 
     public void opponentHit(bool serve)
@@ -251,7 +264,7 @@ public class BallCollision : MonoBehaviour
 
         if(serve)
         {
-            currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(6f, 8f), Random.Range(7f, 9f));
+            currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(5f, 7f), Random.Range(7f, 9f));
             canHit = true;
         }
         else
