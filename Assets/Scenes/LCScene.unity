@@ -119,55 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &261073168
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 261073170}
-  - component: {fileID: 261073169}
-  m_Layer: 0
-  m_Name: CrowdSpawner (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &261073169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261073168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c273ed20e5d140a19277f1ada541654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrowdSpawner
-  fanPrefab: {fileID: 1577505912}
-  fansInRow: 12
-  spacing: 1.79
-  numberOfRows: 4
-  rowOffset: {x: 3.22, y: 2.03, z: 0}
---- !u!4 &261073170
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261073168}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -28.39, y: -10.89, z: -1183.77}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &283497807
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,14 +127,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -4433409250372487920, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -4433409250372487920, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
-      propertyPath: teamColors.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2857957176166970775, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.22
@@ -229,7 +172,7 @@ PrefabInstance:
       value: Fan
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: -4433409250372487920, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -281,55 +224,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 26.2, y: -10.89, z: -1218.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!1 &370843173
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 370843175}
-  - component: {fileID: 370843174}
-  m_Layer: 0
-  m_Name: CrowdSpawner (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &370843174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370843173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c273ed20e5d140a19277f1ada541654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CrowdSpawner
-  fanPrefab: {fileID: 1577505912}
-  fansInRow: 12
-  spacing: 1.79
-  numberOfRows: 4
-  rowOffset: {x: 3.22, y: 2.03, z: 0}
---- !u!4 &370843175
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370843173}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -28.4, y: -10.89, z: -1218.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -457,13 +351,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 857959978}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -28.39, y: -10.89, z: -1183.77}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!114 &857959981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,10 +370,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f5e6a15d97e4d48aa4ad96e6609ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CrowdSpawner1
-  fanPrefab: {fileID: 0}
+  fanPrefab: {fileID: 5218552014072146866, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
   fansInRow: 12
   spacing: 1.79
-  numberOfRows: 5
+  numberOfRows: 4
   rowOffset: {x: -3.22, y: 2.03, z: -0.02}
 --- !u!1 &908199044
 GameObject:
@@ -513,7 +407,7 @@ MonoBehaviour:
   fanPrefab: {fileID: 5218552014072146866, guid: e92f2864639a8447fbbed7c6ea504dc3, type: 3}
   fansInRow: 20
   spacing: 1
-  numberOfRows: 5
+  numberOfRows: 4
   rowOffset: {x: -3.22, y: 2.03, z: -0.02}
 --- !u!4 &908199046
 Transform:
@@ -664,8 +558,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1216062160}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.36290836, y: 0.006988526, z: -0.0027218761, w: 0.9317947}
-  m_LocalPosition: {x: -8.696655, y: 57.08648, z: -1285.1646}
+  m_LocalRotation: {x: 0.21891728, y: -0.3138762, z: 0.07461797, w: 0.9208633}
+  m_LocalPosition: {x: 31.271343, y: 19.049519, z: -1255.7828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1107,7 +1001,5 @@ SceneRoots:
   - {fileID: 283497807}
   - {fileID: 1143756743}
   - {fileID: 359329729}
-  - {fileID: 261073170}
-  - {fileID: 370843175}
   - {fileID: 857959980}
   - {fileID: 908199046}
