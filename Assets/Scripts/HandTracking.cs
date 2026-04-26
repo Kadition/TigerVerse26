@@ -12,9 +12,9 @@ public class HandTracking : MonoBehaviour
     // this is the xr origin rig (NOT THE CAMERA)
     [SerializeField] private Transform headsetRigTransform;
     [SerializeField] private InputActionReference buttonClick;
-    [SerializeField] private GameObject ball;
+    [SerializeField] private InputActionReference joystick;
 
-    // [SerializeField]
+    private const float movementSpeed = 1.5f;
 
     public Transform racketFace;
     public BoxCollider racketCollider;
@@ -53,6 +53,13 @@ public class HandTracking : MonoBehaviour
 
         transform.position = headsetRigTransform.TransformPoint(localHandPos);
 
+        // TODO - two buttions to change height
+
+        Vector2 joystickVector = joystick.action.ReadValue<Vector2>();
+
+        headsetRigTransform.position = headsetRigTransform.position + Time.deltaTime * movementSpeed * new Vector3(-joystickVector.x, 0, -joystickVector.y);
+
+        headsetRigTransform.position = new Vector3(Mathf.Clamp(headsetRigTransform.position.x, -BallCollision.xSides - 0.2f, BallCollision.xSides + 0.2f), 0, Mathf.Clamp(headsetRigTransform.position.z, 0.1f, BallCollision.zSides + 0.3f));
     }
 
     void SpawnBall(InputAction.CallbackContext context)

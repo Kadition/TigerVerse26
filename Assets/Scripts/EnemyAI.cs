@@ -51,6 +51,7 @@ public class EnemyAI : MonoBehaviour
 
         Vector3 direction = new Vector3(ballCollisionPosition.x - transform.position.x, 0, ballCollisionPosition.z - transform.position.z);
 
+        // TODO - ai not hit if going to hit the ground
         // TODO - if close enough, go towards it
         // TODO - if ball collision position is outside of the map, go towards it, but not really far outside
 
@@ -63,7 +64,7 @@ public class EnemyAI : MonoBehaviour
             transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;   
         }
 
-        if(Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
+        if((BallCollision.instance.locationIn(ballCollisionPosition) || BallCollision.instance.doubleBounce) && Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
         {
             BallCollision.instance.opponentHit();
         }

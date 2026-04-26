@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class BallCollision : MonoBehaviour
 {
@@ -6,19 +9,25 @@ public class BallCollision : MonoBehaviour
 
     private const float gravityAccel = -9.81f;
 
-    private float speedMultiplier = 1.2f;
+    private const float speedMultiplier = 2.8f;
 
-    private const float xSides = 3.333f;
+    public const float xSides = 3.333f;
 
-    private const float zSides = 8.162f;
+    public const float zSides = 8.162f;
 
     private const float netHeight = 0.72f;
 
+    [SerializeField] private Transform racketHandle;
+
     private Vector3 lastRacketTransform;
+
+    private Vector3 lastRacketFaceTransform;
 
     private Vector3 lastTransform;
 
     private Vector3 secondToLastRacketTransform;
+
+    private Vector3 secondToLastRacketFaceTransform;
 
     private Vector3 currentVelocity;
 
@@ -26,9 +35,11 @@ public class BallCollision : MonoBehaviour
 
     public bool playerLastHit {get; private set;} = false;
 
-    private bool doubleBounce = false;
+    public bool doubleBounce {get; private set;} = false;
 
     [SerializeField] private Transform racketPoint;
+
+    [SerializeField] private InputActionReference hapticDevice;
 
     void Awake()
     {
@@ -45,22 +56,26 @@ public class BallCollision : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        lastRacketTransform = HandTracking.instance.racketFace.transform.position;
-        secondToLastRacketTransform = HandTracking.instance.racketFace.transform.position;
+        lastRacketFaceTransform = HandTracking.instance.racketFace.transform.position;
+        secondToLastRacketFaceTransform = HandTracking.instance.racketFace.transform.position;
+        lastRacketTransform = racketHandle.position;
+        secondToLastRacketTransform = racketHandle.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Debug.Log(Vector3.Distance(lastRacketTransform, secondToLastRacketTransform));
+        Debug.Log(Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform));
 
-        HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketTransform, secondToLastRacketTransform))), HandTracking.instance.racketCollider.size.z);
+        HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform))), HandTracking.instance.racketCollider.size.z);
 
         if(!hasBeenHit)
         {
             lastTransform = transform.position;
             secondToLastRacketTransform = lastRacketTransform;
-            lastRacketTransform = HandTracking.instance.racketFace.transform.position;
+            lastRacketTransform = racketHandle.position;
+            secondToLastRacketFaceTransform = lastRacketFaceTransform;
+            lastRacketFaceTransform = HandTracking.instance.racketFace.transform.position;
             return;
         }
 
@@ -163,11 +178,17 @@ public class BallCollision : MonoBehaviour
 
         lastTransform = transform.position;
         secondToLastRacketTransform = lastRacketTransform;
-        lastRacketTransform = HandTracking.instance.racketFace.transform.position;
+        lastRacketTransform = racketHandle.position;
+        secondToLastRacketFaceTransform = lastRacketFaceTransform;
+        lastRacketFaceTransform = HandTracking.instance.racketFace.transform.position;
     }
 
     void OnTriggerEnter(Collider other)
     {
+        XRControllerWithRumble controller = hapticDevice.action.activeControl.device as XRControllerWithRumble;
+
+        controller.SendImpulse(1, 0.1f);
+
         if(playerLastHit)
         {
             ScoreTracker.instance.RecordPoint(false);
@@ -187,7 +208,7 @@ public class BallCollision : MonoBehaviour
 
         currentVelocity = speedMultiplier * speed * HandTracking.instance.racketFace.forward;
 
-        Debug.Log(currentVelocity);
+        // Debug.Log(currentVelocity);
     }
 
     public void opponentHit()

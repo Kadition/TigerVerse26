@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &43938233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 43938234}
+  m_Layer: 0
+  m_Name: RacketHandle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &43938234
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43938233}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1248202016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &62063520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1392,7 @@ Transform:
   - {fileID: 2077807717}
   - {fileID: 1585540010}
   - {fileID: 807643245}
+  - {fileID: 43938234}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1248202017
@@ -1379,7 +1411,7 @@ MonoBehaviour:
   rightHandRotation: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   headsetRigTransform: {fileID: 1341822838}
   buttonClick: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  ball: {fileID: 3915834484394938477, guid: abc1ecd096b8c7b42858df56853e7f62, type: 3}
+  joystick: {fileID: -8666952849799569744, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   racketFace: {fileID: 1585540010}
   racketCollider: {fileID: 2077807719}
 --- !u!1 &1304922861
@@ -1586,6 +1618,7 @@ GameObject:
   - component: {fileID: 1341822838}
   - component: {fileID: 1341822837}
   - component: {fileID: 1341822836}
+  - component: {fileID: 1341822839}
   m_Layer: 0
   m_Name: XR Origin (VR)
   m_TagString: Untagged
@@ -1640,6 +1673,18 @@ Transform:
   - {fileID: 1042017412}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1341822839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1341822835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f50ebf789bc4e56841575d55422582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ScoreTracker
 --- !u!1 &1388000969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2341,7 +2386,7 @@ MonoBehaviour:
   rightHandRotation: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   headsetRigTransform: {fileID: 1341822838}
   buttonClick: {fileID: 0}
-  ball: {fileID: 0}
+  joystick: {fileID: 0}
   racketFace: {fileID: 0}
   racketCollider: {fileID: 0}
 --- !u!23 &1743984890
@@ -2906,7 +2951,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad74bd63341c8d447a4df6c83edc06b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallCollision
+  racketHandle: {fileID: 43938234}
   racketPoint: {fileID: 807643245}
+  hapticDevice: {fileID: -8222252007134549311, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &1103118151184213589
 GameObject:
   m_ObjectHideFlags: 0
