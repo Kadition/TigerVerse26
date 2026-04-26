@@ -208,10 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad74bd63341c8d447a4df6c83edc06b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BallCollision
+  racketHandle: {fileID: 0}
   racketPoint: {fileID: 0}
+  hapticDevice: {fileID: 0}
   BallAudioSource: {fileID: 0}
   Bounce: {fileID: 8300000, guid: a444f028a2ea64d4494a473bd0e12137, type: 3}
   Hit: {fileID: 8300000, guid: 3f317887be5734c5fbbf8110863e90f4, type: 3}
+  netSound: {fileID: 0}
+  netAudioSource: {fileID: 0}
 --- !u!135 &263425822
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1253,8 +1257,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sample text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
+  m_sharedMaterial: {fileID: -299302022594265150, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1351,7 +1355,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - {fileID: -299302022594265150, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

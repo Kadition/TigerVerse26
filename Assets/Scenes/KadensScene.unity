@@ -1476,8 +1476,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc28332b5525b4628b6fe8fee0443c95, type: 2}
-  m_sharedMaterial: {fileID: 5072663455996027126, guid: dc28332b5525b4628b6fe8fee0443c95, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
+  m_sharedMaterial: {fileID: -299302022594265150, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1574,7 +1574,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5072663455996027126, guid: dc28332b5525b4628b6fe8fee0443c95, type: 2}
+  - {fileID: -299302022594265150, guid: 6d7c0e91af408494aa1b78c6a99bbb9a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2162,6 +2162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f79c0c0edb6bb48a98f732c6eeb0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  animator: {fileID: 0}
 --- !u!1 &1341822835
 GameObject:
   m_ObjectHideFlags: 0
@@ -2220,7 +2221,7 @@ Transform:
   m_GameObject: {fileID: 1341822835}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 5.86}
+  m_LocalPosition: {x: -0.33, y: 0, z: 9.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3818,6 +3819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f79c0c0edb6bb48a98f732c6eeb0d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  animator: {fileID: 2123673069}
 --- !u!95 &2123673069
 Animator:
   serializedVersion: 7
@@ -3828,7 +3830,7 @@ Animator:
   m_GameObject: {fileID: 2123673067}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: fafca1bc372264d7493ce86d9dbb5ee8, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3f3b36ea767a04a0f89aabda8dc32bc6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 14f6a6539d54db94493b016a8b058ace, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

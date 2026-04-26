@@ -86,7 +86,7 @@ public class BallCollision : MonoBehaviour
             return;
         }
 
-        Debug.Log(Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform));
+        // Debug.Log(Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform));
 
         HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform))), HandTracking.instance.racketCollider.size.z);
 

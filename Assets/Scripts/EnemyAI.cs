@@ -16,7 +16,15 @@ public class EnemyAI : MonoBehaviour
 
     private const float servePositionX = -0.8f;
 
+    [SerializeField] private Animator animator;
+
     private Vector3 ballCollisionPosition;
+
+    int animateForward;
+    int animateBackward;
+    int animateRight;
+    int animateLeft;
+    
 
     void Awake()
     {
@@ -33,12 +41,20 @@ public class EnemyAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        animateForward = Animator.StringToHash("Forward");
+        animateBackward = Animator.StringToHash("Backward");
+        animateRight = Animator.StringToHash("Right");
+        animateLeft = Animator.StringToHash("Left");
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator.SetBool(animateForward, false);
+        animator.SetBool(animateBackward, false);
+        animator.SetBool(animateRight, false);
+        animator.SetBool(animateLeft, false);
+
         if(!BallCollision.instance.canHit)
         {
             return;
@@ -80,12 +96,48 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+
+            if(!(direction.magnitude < 0.1f))
+            {
+                if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
+                {
+                    if(direction.x > 0)
+                    {
+                        animator.SetBool(animateRight, false);
+                    }
+                    else
+                    {
+                        animator.SetBool(animateLeft, false);
+                    }
+                }
+                else
+                {
+                    if(direction.z > 0)
+                    {
+                        animator.SetBool(animateForward, false);
+                    }
+                    else
+                    {
+                        animator.SetBool(animateBackward, false);
+                    }
+                }
+            }
+        
             transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;   
         }
 
         if((BallCollision.instance.locationIn(ballCollisionPosition) || BallCollision.instance.doubleBounce) && Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
         {
             BallCollision.instance.opponentHit(false);
+
+            if(BallCollision.instance.transform.position.x - transform.position.x > 0)
+            {
+                animator.SetTrigger("SwingRight"); 
+            }
+            else
+            {
+                animator.SetTrigger("SwingLeft"); 
+            }
         }
     }
 

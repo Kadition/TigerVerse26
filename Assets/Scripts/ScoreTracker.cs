@@ -2,12 +2,15 @@ using UnityEngine;
 using TMPro;
 using System.IO.Ports;
 using System;
-
+// REDO
+// REDO
 public class ScoreTracker : MonoBehaviour
 {
     public static ScoreTracker instance;
     private int playerPoints = 0;
     private int opponentPoints = 0;
+
+    private int redo;
 
     public TMP_Text floatingScoreText;
     public AudioClip Cheer;
