@@ -30,6 +30,9 @@ public class BallCollision : MonoBehaviour
 
     [SerializeField] private Transform racketPoint;
 
+    public AudioSource BallAudioSource;
+    public AudioClip Bounce;
+    public AudioClip Hit;
     void Awake()
     {
         if(instance == null)
@@ -77,11 +80,15 @@ public class BallCollision : MonoBehaviour
 
         currentVelocity += gravityAccel * Time.deltaTime * Vector3.up + forceMove * Time.deltaTime;
 
+        if (transform.position.y < 0)
+        {
+            BallAudioSource.PlayOneShot(Bounce);
+        }
         // in bounds and hit ground
         if(transform.position.y < 0 && locationIn(transform.position))
         {
             // you hit your own ground or it bounce twice in yours
-            if((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
+            if ((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
             {
                 ScoreTracker.instance.RecordPoint(false);
                 // TODO - opponent wins
@@ -89,7 +96,7 @@ public class BallCollision : MonoBehaviour
                 resetBall();
                 return;
             }
-            else if((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
+            else if ((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
             {
                 ScoreTracker.instance.RecordPoint(true);
                 // TODO - PLAYER WINS
@@ -168,7 +175,8 @@ public class BallCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(playerLastHit)
+        BallAudioSource.PlayOneShot(Hit);
+        if (playerLastHit)
         {
             ScoreTracker.instance.RecordPoint(false);
             // TODO - opponent won
@@ -192,6 +200,7 @@ public class BallCollision : MonoBehaviour
 
     public void opponentHit()
     {
+        BallAudioSource.PlayOneShot(Hit);
         playerLastHit = false;
 
         doubleBounce = false;

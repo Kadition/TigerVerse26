@@ -9,6 +9,10 @@ public class ScoreTracker : MonoBehaviour
     private int opponentPoints = 0;
 
     public TMP_Text floatingScoreText;
+    public AudioClip Cheer;
+    public AudioClip Aww;
+    public AudioSource LeftCrowdAudioSource;
+    public AudioSource RightCrowdAudioSource;
 
     void Awake()
     {
@@ -42,12 +46,16 @@ public class ScoreTracker : MonoBehaviour
         if (playerPoints >= 4 && playerPoints >= opponentPoints + 2) 
         {
             Debug.Log("Player Wins the Game!");
+            RightCrowdAudioSource.PlayOneShot(Cheer);
+            LeftCrowdAudioSource.PlayOneShot(Cheer);
             ResetGameScore();
             return; //game over
         }
         else if (opponentPoints >= 4 && opponentPoints >= playerPoints + 2)
         {
             Debug.Log("Opponent Wins the Game!");
+            LeftCrowdAudioSource.PlayOneShot(Aww);
+            LeftCrowdAudioSource.PlayOneShot(Aww);
             ResetGameScore();
             return; //game over
         }
