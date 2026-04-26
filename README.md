@@ -11,8 +11,9 @@ Telekenetic Tennis is a virtual reality tennis game built in Unity. This project
 - Immersive Feedback: Includes spatial audio for ball bounces, racket hits, net collisions, crowd reactions, and controller haptic rumble on impact.
 
 **How To Play**
-- Right Hand Joysitck: Move player around court
-- Rigth Hand Rotation: Moves ball left, right, up, and down
+- Move around court: Right hand joysitck 
+- Telekenesis: Moves ball left, right, up, and down after serving by rotating the right controller
+- Follows standard tennis scoring
 
 **Dependencies & Requirements**
 To run this project, your Unity environment must have the following packages installed:
