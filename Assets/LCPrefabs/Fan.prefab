@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2857957176166970775}
-  - component: {fileID: -4433409250372487920}
+  - component: {fileID: 5234853590159825641}
   m_Layer: 0
   m_Name: Fan
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 9213756091812715714}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4433409250372487920
+--- !u!114 &5234853590159825641
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,6 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a01a18afe586463b9d65a9eb4d96c34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FanBehavior
+  teamColors:
+  - {fileID: 2100000, guid: bbbfc67018854495bbbd8e93fe6065de, type: 2}
+  - {fileID: 2100000, guid: 31380f8ea8f164ad3b1c2c7eb9fc8b4f, type: 2}
+  - {fileID: 2100000, guid: 5de56e101d8b14643954d72866cb7af8, type: 2}
 --- !u!1 &6200140238922530313
 GameObject:
   m_ObjectHideFlags: 0

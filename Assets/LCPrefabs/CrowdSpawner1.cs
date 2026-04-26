@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CrowdSpawner : MonoBehaviour
+public class CrowdSpawner1 : MonoBehaviour
 {
     [Header("What to Spawn")]
     public GameObject fanPrefab;
@@ -10,10 +10,10 @@ public class CrowdSpawner : MonoBehaviour
     public float spacing = 1.79f;
 
     [Header("Row Settings (Front to Back)")]
-    public int numberOfRows = 4;
+    public int numberOfRows = 5;
     
     // I have set the default to the exact math we just calculated!
-    public Vector3 rowOffset = new Vector3(3.22f, 2.03f, 0.00f); 
+    public Vector3 rowOffset = new Vector3(-3.22f, 2.03f, -0.02f); 
 
     void Start()
     {
