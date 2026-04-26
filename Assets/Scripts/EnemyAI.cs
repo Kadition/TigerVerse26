@@ -19,11 +19,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private Animator animator;
 
     private Vector3 ballCollisionPosition;
-
-    int animateForward;
-    int animateBackward;
-    int animateRight;
-    int animateLeft;
     
 
     void Awake()
@@ -41,10 +36,7 @@ public class EnemyAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animateForward = Animator.StringToHash("Forward");
-        animateBackward = Animator.StringToHash("Backward");
-        animateRight = Animator.StringToHash("Right");
-        animateLeft = Animator.StringToHash("Left");
+        
     }
 
     // Update is called once per frame
@@ -52,6 +44,8 @@ public class EnemyAI : MonoBehaviour
     {
         if(!BallCollision.instance.canHit)
         {
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", 0);
             return;
         }
 
@@ -85,55 +79,45 @@ public class EnemyAI : MonoBehaviour
 
         Vector3 direction = new Vector3(ballCollisionPosition.x - transform.position.x, 0, ballCollisionPosition.z - transform.position.z);
 
-        if(direction.magnitude < 0.01f)
+        if(direction.magnitude < 0.02f)
         {
             transform.position = new Vector3(ballCollisionPosition.x, transform.position.y, ballCollisionPosition.z);
-            animator.SetBool(animateForward, false);
-            animator.SetBool(animateBackward, false);
-            animator.SetBool(animateRight, false);
-            animator.SetBool(animateLeft, false);
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", 0);
         }
         else
         {
 
-            // if(direction.magnitude > 0.02f)
+            if(direction.magnitude > 0.02f)
             {
                 if(Mathf.Abs(direction.x) > Mathf.Abs(direction.z))
                 {
                     if(direction.x > 0)
                     {
-                        Debug.Log("right");
-                        animator.SetBool(animateRight, true);
-                        animator.SetBool(animateForward, false);
-                        animator.SetBool(animateBackward, false);
-                        animator.SetBool(animateLeft, false);
+                        // Debug.Log("right");
+                        animator.SetFloat("MoveX", 1);
+                        animator.SetFloat("MoveY", 0);
                     }
                     else
                     {
-                        Debug.Log("left");
-                        animator.SetBool(animateLeft, true);
-                        animator.SetBool(animateRight, false);
-                        animator.SetBool(animateForward, false);
-                        animator.SetBool(animateBackward, false);
+                        // Debug.Log("left");
+                        animator.SetFloat("MoveX", -1);
+                        animator.SetFloat("MoveY", 0);
                     }
                 }
                 else
                 {
                     if(direction.z > 0)
                     {
-                        Debug.Log("forward");
-                        animator.SetBool(animateForward, true);
-                        animator.SetBool(animateBackward, false);
-                        animator.SetBool(animateRight, false);
-                        animator.SetBool(animateLeft, false);
+                        // Debug.Log("forward");
+                        animator.SetFloat("MoveX", 0);
+                        animator.SetFloat("MoveY", 1);
                     }
                     else
                     {
-                        Debug.Log("backward");
-                        animator.SetBool(animateBackward, true);
-                        animator.SetBool(animateForward, false);
-                        animator.SetBool(animateRight, false);
-                        animator.SetBool(animateLeft, false);
+                        // Debug.Log("backward");
+                        animator.SetFloat("MoveX", 0);
+                        animator.SetFloat("MoveY", -1);
                     }
                 }
             }
@@ -158,14 +142,49 @@ public class EnemyAI : MonoBehaviour
 
     void standardSit()
     {
+        animator.SetFloat("MoveX", 0);
+        animator.SetFloat("MoveY", 0);
+
         Vector3 directionStandard = new Vector3(-transform.position.x, 0, sitPosition - transform.position.z);
 
-        if(directionStandard.magnitude < 0.01f)
+        if(directionStandard.magnitude < 0.02f)
         {
+            animator.SetFloat("MoveX", 0);
+            animator.SetFloat("MoveY", 0);
             transform.position = new Vector3(0, transform.position.y, sitPosition);
         }
         else
         {
+            if(Mathf.Abs(directionStandard.x) > Mathf.Abs(directionStandard.z))
+            {
+                if(directionStandard.x > 0)
+                {
+                    // Debug.Log("right");
+                    animator.SetFloat("MoveX", 1);
+                    animator.SetFloat("MoveY", 0);
+                }
+                else
+                {
+                    // Debug.Log("left");
+                    animator.SetFloat("MoveX", -1);
+                    animator.SetFloat("MoveY", 0);
+                }
+            }
+            else
+            {
+                if(directionStandard.z > 0)
+                {
+                    // Debug.Log("forward");
+                    animator.SetFloat("MoveX", 0);
+                    animator.SetFloat("MoveY", 1);
+                }
+                else
+                {
+                    // Debug.Log("backward");
+                    animator.SetFloat("MoveX", 0);
+                    animator.SetFloat("MoveY", -1);
+                }
+            }
             transform.position = transform.position + Time.deltaTime * movementSpeed * directionStandard.normalized;   
         }
     }
@@ -183,16 +202,49 @@ public class EnemyAI : MonoBehaviour
 
             if(directionStandard.magnitude < 0.02f)
             {
+                animator.SetFloat("MoveX", 0);
+                animator.SetFloat("MoveY", 0);
                 transform.position = new Vector3(servePositionX, transform.position.y, servePositionZ);
 
                 yield return new WaitForSeconds(0.8f);
 
                 BallCollision.instance.opponentHit(true);
+                animator.SetTrigger("SwingRight"); 
 
                 yield break;
             }
             else
             {
+                if(Mathf.Abs(directionStandard.x) > Mathf.Abs(directionStandard.z))
+                {
+                    if(directionStandard.x > 0)
+                    {
+                        // Debug.Log("right");
+                        animator.SetFloat("MoveX", 1);
+                        animator.SetFloat("MoveY", 0);
+                    }
+                    else
+                    {
+                        // Debug.Log("left");
+                        animator.SetFloat("MoveX", -1);
+                        animator.SetFloat("MoveY", 0);
+                    }
+                }
+                else
+                {
+                    if(directionStandard.z > 0)
+                    {
+                        // Debug.Log("forward");
+                        animator.SetFloat("MoveX", 0);
+                        animator.SetFloat("MoveY", 1);
+                    }
+                    else
+                    {
+                        // Debug.Log("backward");
+                        animator.SetFloat("MoveX", 0);
+                        animator.SetFloat("MoveY", -1);
+                    }
+                }
                 transform.position = transform.position + Time.deltaTime * movementSpeed * directionStandard.normalized;   
             }
 
