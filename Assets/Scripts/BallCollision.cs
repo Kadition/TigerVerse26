@@ -251,7 +251,7 @@ public class BallCollision : MonoBehaviour
 
         if(serve)
         {
-            currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(6f, 8f), Random.Range(8f, 10f));
+            currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(6f, 8f), Random.Range(7f, 9f));
             canHit = true;
         }
         else

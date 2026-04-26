@@ -18,8 +18,6 @@ public class EnemyAI : MonoBehaviour
 
     private Vector3 ballCollisionPosition;
 
-    public bool haveServed {get; private set;} = false;
-
     void Awake()
     {
         if(instance == null)
@@ -41,7 +39,12 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!BallCollision.instance.hasBeenHit || !BallCollision.instance.canHit)
+        if(!BallCollision.instance.canHit)
+        {
+            return;
+        }
+
+        if(!BallCollision.instance.hasBeenHit)
         {
             standardSit();
             return;
@@ -102,21 +105,17 @@ public class EnemyAI : MonoBehaviour
 
     public void moveToServe()
     {
-        haveServed = false;
         StartCoroutine(serve());
     }
 
     private IEnumerator serve()
     {
-        haveServed = false;
-
-        Vector3 directionStandard = new Vector3(servePositionX - transform.position.x, 0, servePositionZ - transform.position.z);
-
         while(true)
         {
+            Vector3 directionStandard = new Vector3(servePositionX - transform.position.x, 0, servePositionZ - transform.position.z);
+
             if(directionStandard.magnitude < 0.02f)
             {
-                haveServed = true;
                 transform.position = new Vector3(servePositionX, transform.position.y, servePositionZ);
 
                 yield return new WaitForSeconds(0.8f);

@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.IO.Ports;
+using System;
 
 public class ScoreTracker : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class ScoreTracker : MonoBehaviour
 
     // Serial port for LCD
     private SerialPort serial;
-    public string portName = "/dev/cu.usbserial-0001"; // Update this to your actual port
+    private string portName = "COM4"; // Update this to your actual port
 
     void Awake()
     {
@@ -36,9 +37,9 @@ public class ScoreTracker : MonoBehaviour
             serial.Open();
             Debug.Log("Serial port opened");
         }
-        catch
+        catch(Exception ex)
         {
-            Debug.LogWarning("Could not open serial port - LCD will not update");
+            Debug.LogWarning($"Could not open serial port - LCD will not update {ex}");
         }
     }
 
