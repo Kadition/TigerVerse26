@@ -3,7 +3,37 @@ guid: 9c7a42779d7734851b510309d07a8142
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tarpooling_01_UV_H_CM_1
+    second: {fileID: 2100000, guid: 6b655119ca5ca44e898665fa6764c825, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tileable eroded scratch metal texture background 05
+    second: {fileID: 2100000, guid: b5ad0291b380649048c4b87a3711cbc7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: '[Color I04]'
+    second: {fileID: 2100000, guid: cda9841186e5849799c5109eddf8a2f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: '[Color M05]'
+    second: {fileID: 2100000, guid: a89f197e4d85e41d38ef5cbbd3e260b0, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 0
+    second: {fileID: 2800000, guid: 4d3c70a6301844281b54f975333bd260, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 1
+    second: {fileID: 2800000, guid: 02bdaeb93653c4ced814f76991430fae, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
