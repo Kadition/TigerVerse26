@@ -1,7 +1,7 @@
 # TigerVerse26
 
-**VR Tennis Project**
-A virtual reality tennis game built in Unity. This project features physics-based ball interactions, standard tennis scoring, dynamic VR controller inputs, and a predictive AI opponent.
+**Telekenetic Tennis**
+Telekenetic Tennis is a virtual reality tennis game built in Unity. This project  features custom physics-based ball interactions, standard tennis scoring, dynamic VR controller inputs, and a predictive AI opponent.
 
 **Core Features**
 - Custom Ball Physics: Calculates custom gravity, velocity, and bounce vectors, determining out-of-bounds hits, net hits, and double bounces.
@@ -20,8 +20,12 @@ To run this project, your Unity environment must have the following packages ins
 
 **Input Map Setup**
 - If setting up this project from scratch, ensure your Unity Input Actions are mapped to the following references inside the HandTracking and BallCollision scripts:
-- rightHandPosition: Tracks the Vector3 position of the right controller.
+- rightHandPosition: Tracks the Vector position of the right controller.
 - rightHandRotation: Tracks the Quaternion rotation of the right controller.
-- joystick: Tracks a Vector2 for player movement around the court.
+- joystick: Tracks a Vector for player movement around the court.
 - buttonClick: Triggers the ball respawn function.
 - hapticDevice: Used to send rumble impulses to the controller on ball impact.
+
+**Hardware Integration: Spectator Score Board**
+- sends score updates to an esp32 driving an lcd display over usb serial so others can follow allong in real time.
+- Requires setting "portName" to the name of the USB port the esp32 is connected to on your machine
