@@ -8,9 +8,7 @@ public class EnemyAI : MonoBehaviour
 
     public const int flubChance = 20;
 
-    public const int tryChance = 20;
-
-    private const float sitPosition = -3f;
+    private const float sitPosition = -6f;
 
     private Vector3 ballCollisionPosition;
 
@@ -43,7 +41,13 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        Debug.Log(ballCollisionPosition);
+        // if(!BallCollision.instance.locationIn(ballCollisionPosition))
+        // {
+        //     standardSit();
+        //     return;
+        // }
+
+        // Debug.Log(ballCollisionPosition);
 
         Vector3 direction = new Vector3(ballCollisionPosition.x - transform.position.x, 0, ballCollisionPosition.z - transform.position.z);
 

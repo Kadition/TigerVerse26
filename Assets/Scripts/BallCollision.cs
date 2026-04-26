@@ -28,6 +28,8 @@ public class BallCollision : MonoBehaviour
 
     private bool doubleBounce = false;
 
+    [SerializeField] private Transform racketPoint;
+
     void Awake()
     {
         if(instance == null)
@@ -64,10 +66,19 @@ public class BallCollision : MonoBehaviour
 
         transform.position = transform.position + currentVelocity * Time.deltaTime + 0.5f * gravityAccel * Time.deltaTime * Time.deltaTime * Vector3.up;
 
-        currentVelocity += gravityAccel * Time.deltaTime * Vector3.up;
+        Vector3 forceMove = Vector3.zero;
+
+        if(playerLastHit)
+        {
+            Vector3 pointVector = Vector3.ProjectOnPlane(racketPoint.forward, Vector3.up).normalized;
+
+            forceMove = new Vector3(pointVector.x, 0, pointVector.z) * 1.5f;
+        }
+
+        currentVelocity += gravityAccel * Time.deltaTime * Vector3.up + forceMove * Time.deltaTime;
 
         // in bounds and hit ground
-        if(transform.position.y < 0 && transform.position.x < xSides && transform.position.x > -xSides && transform.position.z < zSides && transform.position.z > -zSides)
+        if(transform.position.y < 0 && locationIn(transform.position))
         {
             // you hit your own ground or it bounce twice in yours
             if((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
@@ -90,6 +101,23 @@ public class BallCollision : MonoBehaviour
 
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
+        else if(transform.position.y < 0 && doubleBounce)
+        {
+            if(!playerLastHit)
+            {
+                // TODO - opponent wins
+                Debug.Log("Opponent wins2");
+                resetBall();
+                return;
+            }
+            else
+            {
+                // TODO - PLAYER WINS
+                Debug.Log("Player wins");
+                resetBall();
+                return;
+            }
+        }
         // out of bounds
         else if(transform.position.y < 0)
         {
@@ -108,8 +136,9 @@ public class BallCollision : MonoBehaviour
                 return;
             }
         }
+        
         // went into net
-        else if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
+        if(transform.position.z <= 0 && lastTransform.z >= 0 && transform.position.y < netHeight)
         {
             // TODO - opponent wins
             Debug.Log("Opponent wins3");
@@ -167,9 +196,17 @@ public class BallCollision : MonoBehaviour
         }
         else
         {
-            // for(int i = 0; i < EnemyAI.tryChance; i++)
+            if(transform.position.x >= 2.8)
             {
-                currentVelocity = new Vector3(Random.Range(-2f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+                currentVelocity = new Vector3(Random.Range(-2.5f, 0.2f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+            }
+            else if(transform.position.x <= -2.8)
+            {
+                currentVelocity = new Vector3(Random.Range(-0.2f, 2.5f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+            }
+            else
+            {
+                currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(4f, 6f), Random.Range(6f, 8f));
             }
         }
     }
@@ -210,5 +247,10 @@ public class BallCollision : MonoBehaviour
         resetBall();
 
         transform.position = new Vector3(0, 0.8f, 5);
+    }
+
+    public bool locationIn(Vector3 transform)
+    {
+        return transform.x < xSides && transform.x > -xSides && transform.z < zSides && transform.z > -zSides;
     }
 }

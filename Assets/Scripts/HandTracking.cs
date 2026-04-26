@@ -14,6 +14,8 @@ public class HandTracking : MonoBehaviour
     [SerializeField] private InputActionReference buttonClick;
     [SerializeField] private GameObject ball;
 
+    // [SerializeField]
+
     public Transform racketFace;
     public BoxCollider racketCollider;
 
