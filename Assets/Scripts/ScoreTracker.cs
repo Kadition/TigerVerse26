@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class ScoreTracker : MonoBehaviour
 {
@@ -6,6 +7,12 @@ public class ScoreTracker : MonoBehaviour
     // keep player scores
     private int playerPoints = 0;
     private int opponentPoints = 0;
+
+    public TMP_Text floatingScoreText;
+    public AudioClip Cheer;
+    public AudioClip Aww;
+    public AudioSource LeftCrowdAudioSource;
+    public AudioSource RightCrowdAudioSource;
 
     void Awake()
     {
@@ -39,18 +46,22 @@ public class ScoreTracker : MonoBehaviour
         if (playerPoints >= 4 && playerPoints >= opponentPoints + 2) 
         {
             Debug.Log("Player Wins the Game!");
+            RightCrowdAudioSource.PlayOneShot(Cheer);
+            LeftCrowdAudioSource.PlayOneShot(Cheer);
             ResetGameScore();
             return; //game over
         }
         else if (opponentPoints >= 4 && opponentPoints >= playerPoints + 2)
         {
             Debug.Log("Opponent Wins the Game!");
+            LeftCrowdAudioSource.PlayOneShot(Aww);
+            LeftCrowdAudioSource.PlayOneShot(Aww);
             ResetGameScore();
             return; //game over
         }
 
         //If no one won yet, update the display
-        Debug.Log("Current Score: " + GetTennisScoreText());
+        floatingScoreText.text = GetTennisScoreText();
     }
 
     // Translates integers into tennis terms
@@ -83,17 +94,22 @@ public class ScoreTracker : MonoBehaviour
         return $"{pText} - {oText}";
     }
     private void ResetGameScore()
-    {
-        playerPoints = 0;
-        opponentPoints = 0;
-        Debug.Log("Score reset. New Game!");
-    }
+{
+    playerPoints = 0;
+    opponentPoints = 0;
+    // Add this line so the UI updates to "Love - Love" immediately
+    floatingScoreText.text = GetTennisScoreText(); 
+    Debug.Log("Score reset. New Game!");
+}
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (floatingScoreText != null)
+        {
+            floatingScoreText.text = GetTennisScoreText();
+        }
     }
 
     // Update is called once per frame
