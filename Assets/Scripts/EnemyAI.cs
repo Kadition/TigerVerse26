@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
+    public static EnemyAI instance;
     private const float movementSpeed = 1.8f;
 
     private const float distanceToHit = 1.5f;
@@ -10,7 +12,25 @@ public class EnemyAI : MonoBehaviour
 
     private const float sitPosition = -6f;
 
+    private const float servePositionZ = -8.4f;
+
+    private const float servePositionX = -0.8f;
+
     private Vector3 ballCollisionPosition;
+
+    public bool haveServed {get; private set;} = false;
+
+    void Awake()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -21,7 +41,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!BallCollision.instance.hasBeenHit)
+        if(!BallCollision.instance.hasBeenHit || !BallCollision.instance.canHit)
         {
             standardSit();
             return;
@@ -51,10 +71,6 @@ public class EnemyAI : MonoBehaviour
 
         Vector3 direction = new Vector3(ballCollisionPosition.x - transform.position.x, 0, ballCollisionPosition.z - transform.position.z);
 
-        // TODO - ai not hit if going to hit the ground
-        // TODO - if close enough, go towards it
-        // TODO - if ball collision position is outside of the map, go towards it, but not really far outside
-
         if(direction.magnitude < 0.01f)
         {
             transform.position = new Vector3(ballCollisionPosition.x, transform.position.y, ballCollisionPosition.z);
@@ -66,7 +82,7 @@ public class EnemyAI : MonoBehaviour
 
         if((BallCollision.instance.locationIn(ballCollisionPosition) || BallCollision.instance.doubleBounce) && Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)
         {
-            BallCollision.instance.opponentHit();
+            BallCollision.instance.opponentHit(false);
         }
     }
 
@@ -81,6 +97,40 @@ public class EnemyAI : MonoBehaviour
         else
         {
             transform.position = transform.position + Time.deltaTime * movementSpeed * directionStandard.normalized;   
+        }
+    }
+
+    public void moveToServe()
+    {
+        haveServed = false;
+        StartCoroutine(serve());
+    }
+
+    private IEnumerator serve()
+    {
+        haveServed = false;
+
+        Vector3 directionStandard = new Vector3(servePositionX - transform.position.x, 0, servePositionZ - transform.position.z);
+
+        while(true)
+        {
+            if(directionStandard.magnitude < 0.02f)
+            {
+                haveServed = true;
+                transform.position = new Vector3(servePositionX, transform.position.y, servePositionZ);
+
+                yield return new WaitForSeconds(0.8f);
+
+                BallCollision.instance.opponentHit(true);
+
+                yield break;
+            }
+            else
+            {
+                transform.position = transform.position + Time.deltaTime * movementSpeed * directionStandard.normalized;   
+            }
+
+            yield return null;
         }
     }
 }
