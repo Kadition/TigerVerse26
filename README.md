@@ -27,5 +27,5 @@ To run this project, your Unity environment must have the following packages ins
 - hapticDevice: Used to send rumble impulses to the controller on ball impact.
 
 **Hardware Integration: Spectator Score Board**
-- sends score updates to an esp32 driving an lcd display over usb serial so others can follow allong in real time.
-- Requires setting "portName" to the name of the USB port the esp32 is connected to on your machine
+- Sends score updates to an esp32 driving an lcd display over usb serial so others can follow allong in real time.
+- Requires setting "portName" in ScoreTracker.cs to the name of the USB port the esp32 is connected to on your machine
