@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -7,6 +8,8 @@ public class BallCollision : MonoBehaviour
     public static BallCollision instance;
 
     private const float gravityAccel = -9.81f;
+
+    private const float spinMultiplier = 300f;
 
     private const float speedMultiplier = 2.8f;
 
@@ -30,7 +33,11 @@ public class BallCollision : MonoBehaviour
 
     private Vector3 currentVelocity;
 
+    private bool playerServes = true;
+
     public bool hasBeenHit {get; private set;} = false;
+
+    public bool canHit {get; private set;} = true;
 
     public bool playerLastHit {get; private set;} = false;
 
@@ -72,6 +79,11 @@ public class BallCollision : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!canHit)
+        {
+            return;
+        }
+
         Debug.Log(Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform));
 
         HandTracking.instance.racketCollider.size = new Vector3(HandTracking.instance.racketCollider.size.x, Mathf.Lerp(1.2f, 6f, Mathf.InverseLerp(0.05f, 0.4f, Vector3.Distance(lastRacketFaceTransform, secondToLastRacketFaceTransform))), HandTracking.instance.racketCollider.size.z);
@@ -87,6 +99,10 @@ public class BallCollision : MonoBehaviour
         }
 
         transform.position = transform.position + currentVelocity * Time.deltaTime + 0.5f * gravityAccel * Time.deltaTime * Time.deltaTime * Vector3.up;
+
+        Vector3 axisOfRotation = Vector3.Cross(Vector3.up, currentVelocity.normalized);
+
+        transform.Rotate(axisOfRotation.normalized, spinMultiplier * Time.deltaTime, Space.World);
 
         Vector3 forceMove = Vector3.zero;
 
@@ -110,7 +126,6 @@ public class BallCollision : MonoBehaviour
             if ((playerLastHit && transform.position.z > 0) || (!playerLastHit && transform.position.z > 0 && doubleBounce))
             {
                 ScoreTracker.instance.RecordPoint(false);
-                // TODO - opponent wins
                 Debug.Log("Opponent wins1");
                 resetBall();
                 return;
@@ -118,7 +133,6 @@ public class BallCollision : MonoBehaviour
             else if ((!playerLastHit && transform.position.z < 0) || (playerLastHit && transform.position.z < 0 && doubleBounce))
             {
                 ScoreTracker.instance.RecordPoint(true);
-                // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
                 return;
@@ -134,7 +148,6 @@ public class BallCollision : MonoBehaviour
             if(!playerLastHit)
             {
                 ScoreTracker.instance.RecordPoint(false);
-                // TODO - opponent wins
                 Debug.Log("Opponent wins2");
                 resetBall();
                 return;
@@ -142,7 +155,6 @@ public class BallCollision : MonoBehaviour
             else
             {
                 ScoreTracker.instance.RecordPoint(true);
-                // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
                 return;
@@ -154,7 +166,6 @@ public class BallCollision : MonoBehaviour
             if(playerLastHit)
             {
                 ScoreTracker.instance.RecordPoint(false);
-                // TODO - opponent wins
                 Debug.Log("Opponent wins2");
                 resetBall();
                 return;
@@ -162,7 +173,6 @@ public class BallCollision : MonoBehaviour
             else
             {
                 ScoreTracker.instance.RecordPoint(true);
-                // TODO - PLAYER WINS
                 Debug.Log("Player wins");
                 resetBall();
                 return;
@@ -174,8 +184,8 @@ public class BallCollision : MonoBehaviour
         {
             netAudioSource.PlayOneShot(netSound);
             ScoreTracker.instance.RecordPoint(false);
-            // TODO - opponent wins
             Debug.Log("Opponent wins3");
+            transform.position = new Vector3(transform.position.x, transform.position.y, 0.07f);
             resetBall();
             return;
         }
@@ -183,8 +193,8 @@ public class BallCollision : MonoBehaviour
         {
             netAudioSource.PlayOneShot(netSound);
             ScoreTracker.instance.RecordPoint(true);
-            // TODO - PLAYER WINS
             Debug.Log("Player wins");
+            transform.position = new Vector3(transform.position.x, transform.position.y, -0.07f);
             resetBall();
             return;
         }
@@ -198,6 +208,11 @@ public class BallCollision : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if(!canHit)
+        {
+            return;
+        }
+
         XRControllerWithRumble controller = hapticDevice.action.activeControl.device as XRControllerWithRumble;
 
         controller.SendImpulse(1, 0.1f);
@@ -206,7 +221,6 @@ public class BallCollision : MonoBehaviour
         if (playerLastHit)
         {
             ScoreTracker.instance.RecordPoint(false);
-            // TODO - opponent won
             Debug.Log("Opponent wins4");
             resetBall();
             return;
@@ -225,33 +239,42 @@ public class BallCollision : MonoBehaviour
         // Debug.Log(currentVelocity);
     }
 
-    public void opponentHit()
+    public void opponentHit(bool serve)
     {
         BallAudioSource.PlayOneShot(Hit);
+
         playerLastHit = false;
 
         doubleBounce = false;
 
         hasBeenHit = true;
 
-        // the chance the enemy just straight flubs it
-        if(Random.Range(0, EnemyAI.flubChance) == 0)
+        if(serve)
         {
-            currentVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+            currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(6f, 8f), Random.Range(8f, 10f));
+            canHit = true;
         }
         else
         {
-            if(transform.position.x >= 2.8)
+            // the chance the enemy just straight flubs it
+            if(Random.Range(0, EnemyAI.flubChance) == 0)
             {
-                currentVelocity = new Vector3(Random.Range(-2.5f, 0.2f), Random.Range(4f, 6f), Random.Range(6f, 8f));
-            }
-            else if(transform.position.x <= -2.8)
-            {
-                currentVelocity = new Vector3(Random.Range(-0.2f, 2.5f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+                currentVelocity = new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
             }
             else
             {
-                currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+                if(transform.position.x >= 2.8)
+                {
+                    currentVelocity = new Vector3(Random.Range(-2.5f, 0.2f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+                }
+                else if(transform.position.x <= -2.8)
+                {
+                    currentVelocity = new Vector3(Random.Range(-0.2f, 2.5f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+                }
+                else
+                {
+                    currentVelocity = new Vector3(Random.Range(-1.8f, 1.8f), Random.Range(4f, 6f), Random.Range(6f, 8f));
+                }
             }
         }
     }
@@ -276,6 +299,8 @@ public class BallCollision : MonoBehaviour
 
     private void resetBall()
     {
+        canHit = false;
+
         hasBeenHit = false;
 
         playerLastHit = false;
@@ -284,18 +309,34 @@ public class BallCollision : MonoBehaviour
 
         currentVelocity = Vector3.zero;
 
-        transform.position = new Vector3(0, -8, 0);
+        StartCoroutine(respawnBall());
     }
 
-    public void respawnBall()
+    private IEnumerator respawnBall()
     {
-        resetBall();
+        yield return new WaitForSeconds(1.5f);
 
-        transform.position = new Vector3(0, 0.8f, 5);
+        transform.rotation = Quaternion.identity;
+
+        if(playerServes)
+        {
+            transform.position = new Vector3(0, 1, 8.2f);
+            canHit = true;
+        }
+        else
+        {
+            transform.position = new Vector3(0, 1, -8.2f);
+            EnemyAI.instance.moveToServe();
+        }
     }
 
     public bool locationIn(Vector3 transform)
     {
         return transform.x < xSides && transform.x > -xSides && transform.z < zSides && transform.z > -zSides;
+    }
+
+    public void flipWhoServes()
+    {
+        playerServes = !playerServes;
     }
 }

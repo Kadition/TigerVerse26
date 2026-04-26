@@ -61,6 +61,7 @@ public class ScoreTracker : MonoBehaviour
         if (playerPoints >= 4 && playerPoints >= opponentPoints + 2) 
         {
             Debug.Log("Player Wins the Game!");
+            BallCollision.instance.flipWhoServes();
             RightCrowdAudioSource.PlayOneShot(Cheer);
             LeftCrowdAudioSource.PlayOneShot(Cheer);
             SendToLCD("Player Wins!", "");
@@ -70,6 +71,7 @@ public class ScoreTracker : MonoBehaviour
         else if (opponentPoints >= 4 && opponentPoints >= playerPoints + 2)
         {
             Debug.Log("Opponent Wins the Game!");
+            BallCollision.instance.flipWhoServes();
             LeftCrowdAudioSource.PlayOneShot(Aww);
             RightCrowdAudioSource.PlayOneShot(Aww);
             SendToLCD("Opponent Wins!", "");

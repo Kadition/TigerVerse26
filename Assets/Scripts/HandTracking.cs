@@ -59,11 +59,11 @@ public class HandTracking : MonoBehaviour
 
         headsetRigTransform.position = headsetRigTransform.position + Time.deltaTime * movementSpeed * new Vector3(-joystickVector.x, 0, -joystickVector.y);
 
-        headsetRigTransform.position = new Vector3(Mathf.Clamp(headsetRigTransform.position.x, -BallCollision.xSides - 0.2f, BallCollision.xSides + 0.2f), 0, Mathf.Clamp(headsetRigTransform.position.z, 0.1f, BallCollision.zSides + 0.3f));
+        headsetRigTransform.position = new Vector3(Mathf.Clamp(headsetRigTransform.position.x, -BallCollision.xSides - 0.2f, BallCollision.xSides + 0.2f), 0, Mathf.Clamp(headsetRigTransform.position.z, 0.1f, BallCollision.zSides + 1f));
     }
 
     void SpawnBall(InputAction.CallbackContext context)
     {
-        BallCollision.instance.respawnBall();
+        
     }
 }
