@@ -87,6 +87,9 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;
+
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, -BallCollision.xSides - 0.2f, BallCollision.xSides + 0.2f), 0, Mathf.Clamp(transform.position.z, -BallCollision.zSides - 1f, -0.1f));
 
             if(direction.magnitude > 0.02f)
             {
@@ -121,8 +124,6 @@ public class EnemyAI : MonoBehaviour
                     }
                 }
             }
-        
-            transform.position = transform.position + Time.deltaTime * movementSpeed * direction.normalized;  
         }
 
         if((BallCollision.instance.locationIn(ballCollisionPosition) || BallCollision.instance.doubleBounce) && Vector3.Distance(transform.position, BallCollision.instance.transform.position) < distanceToHit)

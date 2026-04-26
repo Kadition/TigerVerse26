@@ -13,6 +13,8 @@ public class BallCollision : MonoBehaviour
 
     private const float speedMultiplier = 2.8f;
 
+    private const float forceMoveConstant = 1.8f;
+
     public const float xSides = 3.333f;
 
     public const float zSides = 8.162f;
@@ -112,7 +114,7 @@ public class BallCollision : MonoBehaviour
         {
             Vector3 pointVector = Vector3.ProjectOnPlane(racketPoint.forward, Vector3.up).normalized;
 
-            forceMove = new Vector3(pointVector.x, 0, pointVector.z) * 1.5f;
+            forceMove = new Vector3(pointVector.x, 0, pointVector.z) * forceMoveConstant;
         }
 
         currentVelocity += gravityAccel * Time.deltaTime * Vector3.up + forceMove * Time.deltaTime;

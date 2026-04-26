@@ -12,7 +12,7 @@ Telekenetic Tennis is a virtual reality tennis game built in Unity. This project
 
 **How To Play**
 - Move around court: Right hand joysitck 
-- Telekenesis: Moves ball left, right, up, and down after serving by rotating the right controller
+- Telekenesis: Moves ball left, right, forward, and backwards after serving by rotating the right controller
 - Follows standard tennis scoring
 
 **Dependencies & Requirements**
